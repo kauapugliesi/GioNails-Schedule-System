@@ -1,3 +1,5 @@
+import { getToken } from "./auth-storage";
+
 export const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8080";
 
 export interface ApiErrorBody {
@@ -15,11 +17,16 @@ export class ApiError extends Error {
   }
 }
 
-/** Cliente HTTP mínimo e tipado. O token JWT será anexado na etapa 2. */
+/** Cliente HTTP mínimo e tipado. Anexa o token JWT (quando existir) em toda requisição. */
 export async function api<T>(path: string, init?: RequestInit): Promise<T> {
+  const token = getToken();
   const res = await fetch(`${API_URL}${path}`, {
     ...init,
-    headers: { "Content-Type": "application/json", ...(init?.headers ?? {}) },
+    headers: {
+      "Content-Type": "application/json",
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      ...(init?.headers ?? {}),
+    },
     cache: "no-store",
   });
 

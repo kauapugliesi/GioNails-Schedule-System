@@ -23,3 +23,17 @@ Paleta extraída do catálogo da profissional (cores amostradas do PDF):
 - Marrom (texto/títulos): `#563F38`
 - Variações derivadas para estados e superfícies: ver `frontend/tailwind.config.ts`.
 Tipografia: Playfair Display (títulos) + Poppins (texto), como no catálogo.
+
+## ADR-007 · Autenticação (etapa 2)
+- Login por **telefone + senha**; senha com **BCrypt** (força 12, configurável por `BCRYPT_STRENGTH`). Mínimo de 8 e máximo de 72 caracteres (limite do BCrypt).
+- **JWT stateless** (HS256, `JWT_SECRET` ≥ 32 caracteres, validade `JWT_EXPIRATION_MINUTES`, padrão 8 h). Sem refresh token nesta etapa.
+- O token só carrega o id do usuário. **Perfil e status (ativo) são lidos do banco a cada requisição**, então desativar um usuário ou mudar seu perfil vale imediatamente.
+- Perfis: `CLIENTE` e `MANICURE`. O cadastro público **sempre** cria `CLIENTE`. A manicure é criada na inicialização a partir de `MANICURE_NOME/TELEFONE/SENHA` (ver `ManicureInicialInitializer`), nunca por endpoint público.
+- Login devolve mensagem genérica ("Telefone ou senha inválidos.") e gasta o mesmo tempo de hash quando o telefone não existe, para dificultar a descoberta de quais telefones são cadastrados.
+- Erros 401/403 saem no mesmo formato `ApiError` (entry point e access-denied handler dedicados).
+
+## ADR-008 · Campo `nome` no cadastro
+O enunciado pede telefone e senha; adicionamos **nome** obrigatório porque a portaria do condomínio libera a entrada pelo nome da cliente e a manicure precisa identificar quem está na agenda.
+
+## ADR-009 · Token no navegador
+O token fica no `localStorage` para manter a cliente conectada no celular. Trade-off: legível por JavaScript em caso de XSS. Mitigações planejadas para a etapa 6: Content-Security-Policy, nenhum HTML injetado, limitação de tentativas de login (rate limit).

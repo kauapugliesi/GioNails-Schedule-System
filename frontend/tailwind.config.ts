@@ -24,6 +24,7 @@ const config: Config = {
           700: "#42302A",
           800: "#33241F",
         },
+        erro: "#9B3D32",
       },
       fontFamily: {
         serif: ["var(--font-playfair)", "Georgia", "serif"],

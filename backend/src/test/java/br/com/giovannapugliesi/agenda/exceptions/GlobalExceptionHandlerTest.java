@@ -3,9 +3,12 @@ package br.com.giovannapugliesi.agenda.exceptions;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 class GlobalExceptionHandlerTest {
 
@@ -32,6 +35,29 @@ class GlobalExceptionHandlerTest {
                 new ConflictException("Horário indisponível."), request());
 
         assertThat(res.getStatusCode()).isEqualTo(HttpStatus.CONFLICT);
+    }
+
+    @Test
+    void credenciaisInvalidasRetorna401() {
+        ResponseEntity<ApiError> res = handler.handleBusiness(
+                new UnauthorizedException("Telefone ou senha inválidos."), request());
+
+        assertThat(res.getStatusCode()).isEqualTo(HttpStatus.UNAUTHORIZED);
+    }
+
+    @Test
+    void acessoNegadoRetorna403() {
+        ResponseEntity<ApiError> res = handler.handleAccessDenied(new AccessDeniedException("x"), request());
+
+        assertThat(res.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
+    }
+
+    @Test
+    void rotaInexistenteRetorna404EnaoErro500() {
+        ResponseEntity<ApiError> res = handler.handleNotFound(
+                new NoResourceFoundException(HttpMethod.GET, "api/nao-existe"), request());
+
+        assertThat(res.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
     }
 
     @Test

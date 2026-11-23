@@ -1,3 +1,4 @@
+import AuthBar from "@/components/AuthBar";
 import { api } from "@/lib/api";
 
 export const dynamic = "force-dynamic";
@@ -24,9 +25,10 @@ export default async function Home() {
       <p className="mt-3 text-sm font-light uppercase tracking-[0.35em]">Agendamento</p>
 
       <p className="mt-10 text-sm font-light leading-relaxed text-marrom-400">
-        Unhas em gel, sobrancelhas, lábios e cílios. Em breve você poderá reservar seu horário
-        por aqui, com poucos toques.
+        Unhas em gel, sobrancelhas, lábios e cílios.
       </p>
+
+      <AuthBar />
 
       <span className="mt-10 inline-flex items-center gap-2 rounded-full bg-bege-100 px-4 py-2 text-xs">
         <span

@@ -9,11 +9,13 @@ Sistema web de agendamento do **Studio Giovanna Pugliesi** (manicure): login por
 | Banco | PostgreSQL 16 + Flyway (migrações versionadas) |
 | Auth (etapa 2) | JWT stateless + BCrypt |
 
-## Como rodar (etapa 1)
+## Como rodar
 
 ```bash
 # 1) variáveis de ambiente
-cp .env.example .env            # edite a senha do banco
+cp .env.example .env            # edite: senha do banco, JWT_SECRET e dados da manicure
+#   JWT_SECRET: openssl rand -base64 48
+#   MANICURE_TELEFONE / MANICURE_SENHA: criam a conta da administradora na 1ª execução
 
 # 2) banco
 docker compose up -d
@@ -42,10 +44,21 @@ frontend/src/app        páginas (App Router)
 docs/                   decisões de arquitetura
 ```
 
+## API de autenticação (etapa 2)
+
+| Método | Rota | Acesso | Descrição |
+|---|---|---|---|
+| POST | `/api/auth/register` | público | Cadastro de **cliente** (nome, telefone, senha). Já devolve o token. |
+| POST | `/api/auth/login` | público | Login com telefone + senha. Devolve `{ token, tipo, expiraEm, usuario }`. |
+| GET | `/api/auth/me` | autenticado | Dados do usuário logado. |
+| — | `/api/admin/**` | só **MANICURE** | Reservado para o painel (etapa 5). |
+
+Use o token no cabeçalho `Authorization: Bearer <token>`. Telefones aceitam máscara; são salvos só com dígitos e DDI 55.
+
 ## Etapas
 
 1. ✅ Estrutura do projeto e configuração do banco
-2. ⏳ Autenticação por telefone e senha (cliente / manicure)
+2. ✅ Autenticação por telefone e senha (cliente / manicure)
 3. ⏳ Catálogo de serviços
 4. ⏳ Agendamento, disponibilidade e regras de conflito
 5. ⏳ Painel da manicure e tela de endereço

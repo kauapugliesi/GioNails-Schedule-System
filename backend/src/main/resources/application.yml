@@ -30,3 +30,13 @@ app:
   timezone: America/Maceio
   cors:
     allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:3000}
+  jwt:
+    secret: ${JWT_SECRET}                       # obrigatório, mínimo 32 caracteres
+    expiration-minutes: ${JWT_EXPIRATION_MINUTES:480}
+  security:
+    bcrypt-strength: ${BCRYPT_STRENGTH:12}
+  # Conta da manicure (administradora) criada na primeira inicialização, se ainda não existir.
+  manicure-inicial:
+    nome: ${MANICURE_NOME:}
+    telefone: ${MANICURE_TELEFONE:}
+    senha: ${MANICURE_SENHA:}
