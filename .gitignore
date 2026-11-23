@@ -1,0 +1,19 @@
+# Segredos e ambiente
+.env
+.env.*
+!.env.example
+
+# Backend
+backend/target/
+*.log
+.idea/
+*.iml
+.vscode/
+.DS_Store
+
+# Frontend
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/next-env.d.ts
+frontend/*.tsbuildinfo
