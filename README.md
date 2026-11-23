@@ -1,6 +1,6 @@
-# Agenda · Studio Giovanna Pugliesi
+# GioNails-Schedule-System
 
-Sistema web de agendamento para manicure: login por telefone e senha, perfis **cliente** e **manicure (administradora)**.
+Sistema web de agendamento do **Studio Giovanna Pugliesi** (manicure): login por telefone e senha, perfis **cliente** e **manicure (administradora)**.
 
 | Camada | Tecnologia |
 |---|---|

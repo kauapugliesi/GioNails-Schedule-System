@@ -12,6 +12,6 @@ public class HealthController {
 
     @GetMapping("/health")
     public StatusDTO health() {
-        return new StatusDTO("UP", "agenda-giovanna-api", Instant.now());
+        return new StatusDTO("UP", "gionails-schedule-api", Instant.now());
     }
 }

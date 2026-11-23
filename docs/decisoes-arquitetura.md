@@ -1,4 +1,4 @@
-# Decisões de arquitetura
+# GioNails-Schedule-System · Decisões de arquitetura
 
 ## ADR-001 · Spring Boot e TypeScript
 O enunciado pede API em Spring Boot e menciona TypeScript "onde couber" no backend. Spring Boot roda na JVM (Java/Kotlin) e **não executa TypeScript**; misturar um segundo runtime Node só para regras de integração adicionaria complexidade sem ganho num sistema deste porte.

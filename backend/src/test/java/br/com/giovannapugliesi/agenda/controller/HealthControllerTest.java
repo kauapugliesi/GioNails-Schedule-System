@@ -20,6 +20,6 @@ class HealthControllerTest {
         mockMvc.perform(get("/api/health"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value("UP"))
-                .andExpect(jsonPath("$.servico").value("agenda-giovanna-api"));
+                .andExpect(jsonPath("$.servico").value("gionails-schedule-api"));
     }
 }
